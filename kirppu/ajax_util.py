@@ -18,8 +18,12 @@ Utility functions for writing AJAX views.
 """
 
 # Some HTTP Status codes that are used here.
+RET_BAD_REQUEST = 400  # Bad request
 RET_UNAUTHORIZED = 401  # Unauthorized, though, not expecting Basic Auth...
 RET_FORBIDDEN = 403     # Forbidden
+RET_CONFLICT = 409  # Conflict
+RET_AUTH_FAILED = 419  # Authentication timeout
+RET_LOCKED = 423  # Locked resource
 
 
 class AjaxError(Exception):

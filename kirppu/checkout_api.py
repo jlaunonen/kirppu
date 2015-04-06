@@ -31,14 +31,12 @@ from .ajax_util import (
     get_clerk,
     require_counter_validated,
     require_clerk_login,
+    RET_BAD_REQUEST,
+    RET_FORBIDDEN,
+    RET_CONFLICT,
+    RET_AUTH_FAILED,
+    RET_LOCKED,
 )
-
-
-# Some HTTP Status codes that are used here.
-RET_BAD_REQUEST = 400  # Bad request
-RET_CONFLICT = 409  # Conflict
-RET_AUTH_FAILED = 419  # Authentication timeout
-RET_LOCKED = 423  # Locked resource
 
 
 def raise_if_item_not_available(item):
@@ -206,6 +204,26 @@ def item_find(request, code):
         if message is not None:
             value.update(_message=message)
     return value
+
+
+@ajax_func('^item/search$', method='GET')
+def item_search(request, query):
+    if not get_clerk(request).user.has_perm('kirppu.oversee'):
+        raise AjaxError(RET_FORBIDDEN, _i(u"Access denied."))
+
+    clauses = []
+
+    for part in query.split():
+        clauses.append(Q(name__icontains=part))
+
+    results = []
+
+    for item in Item.objects.filter(*clauses).all():
+        item_dict = item.as_dict()
+        item_dict['vendor'] = item.vendor.as_dict()
+        results.append(item_dict)
+
+    return results
 
 
 @ajax_func('^item/list$', method='GET')
