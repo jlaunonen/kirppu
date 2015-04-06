@@ -511,7 +511,9 @@
       this.onSubmit = bind(this.onSubmit, this);
       this.action = action;
       this.searchInput = $('<input type="text" id="item_search_input" class="form-control">');
-      this.form = $('<form role="form">').append([$('<div class="form-group">').append([$('<label for="item_search_input">Name</label>'), this.searchInput]), $('<button type="submit" class="btn btn-default">').text('Search')]);
+      this.minPriceInput = $('<input type="number" step="any" min="0" id="item_search_min_price" class="form-control">');
+      this.maxPriceInput = $('<input type="number" step="any" min="0" id="item_search_max_price" class="form-control">');
+      this.form = $('<form role="form" class="form-horizontal">').append([$('<div class="form-group">').append([$('<label for="item_search_input" class="control-label col-sm-2">Name</label>'), $('<div class="input-group col-sm-10">').append(this.searchInput)]), $('<div class="form-group">').append([$('<label for="item_search_min_price" class="control-label col-sm-2">Minimum price</label>'), $('<div class="input-group col-sm-2">').append([this.minPriceInput, $('<span class="input-group-addon">').text('€')])]), $('<div class="form-group">').append([$('<label for="item_search_max_price" class="control-label col-sm-2">Maximum price</label>'), $('<div class="input-group col-sm-2">').append([this.maxPriceInput, $('<span class="input-group-addon">').text('€')])]), $('<div class="col-sm-offset-2">').append($('<button type="submit" class="btn btn-default" class="col-sm-1">').text('Search'))]);
       this.form.off('submit');
       this.form.submit(this.onSubmit);
     }
@@ -522,7 +524,7 @@
 
     ItemSearchForm.prototype.onSubmit = function(event) {
       event.preventDefault();
-      return this.action(this.searchInput.val());
+      return this.action(this.searchInput.val(), this.minPriceInput.val(), this.maxPriceInput.val());
     };
 
     return ItemSearchForm;
@@ -1316,9 +1318,11 @@
       return "Item Search";
     };
 
-    ItemFindMode.prototype.doSearch = function(query) {
+    ItemFindMode.prototype.doSearch = function(query, min_price, max_price) {
       return Api.item_search({
-        query: query
+        query: query,
+        min_price: min_price,
+        max_price: max_price
       }).done(this.onItemsFound);
     };
 

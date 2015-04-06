@@ -15,8 +15,12 @@ class @ItemFindMode extends CheckoutMode
   glyph: -> "search"
   title: -> "Item Search"
 
-  doSearch: (query) =>
-    Api.item_search(query: query).done(@onItemsFound)
+  doSearch: (query, min_price, max_price) =>
+    Api.item_search(
+      query: query
+      min_price: min_price
+      max_price: max_price
+    ).done(@onItemsFound)
 
   onItemsFound: (items) =>
     @itemList.body.empty()
