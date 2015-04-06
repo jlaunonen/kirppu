@@ -474,7 +474,64 @@
 
 }).call(this);
 
-// ================ 8: vendorlist.coffee ================
+// ================ 8: itemfindlist.coffee ================
+
+(function() {
+  var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  this.ItemFindList = (function(superClass) {
+    extend(ItemFindList, superClass);
+
+    function ItemFindList() {
+      ItemFindList.__super__.constructor.apply(this, arguments);
+      this.head.append(['<th class="receipt_index">#</th>', '<th class="receipt_code">' + gettext('code') + '</th>', '<th class="receipt_item">' + gettext('item') + '</th>', '<th class="receipt_price">' + gettext('price') + '</th>', '<th class="receipt_name">' + gettext('vendor') + '</th>'].map($));
+    }
+
+    ItemFindList.prototype.append = function(item, index) {
+      var row;
+      row = $("<tr>");
+      row.append([$("<td>").text(index), $("<td>").text(item.code), $("<td>").text(item.name), $("<td>").text(displayPrice(item.price)), $("<td>").text(item.vendor.name)]);
+      return this.body.append(row);
+    };
+
+    return ItemFindList;
+
+  })(ResultTable);
+
+}).call(this);
+
+// ================ 9: itemsearchform.coffee ================
+
+(function() {
+  var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+  this.ItemSearchForm = (function() {
+    function ItemSearchForm(action) {
+      this.onSubmit = bind(this.onSubmit, this);
+      this.action = action;
+      this.searchInput = $('<input type="text" id="item_search_input" class="form-control">');
+      this.form = $('<form role="form">').append([$('<div class="form-group">').append([$('<label for="item_search_input">Name</label>'), this.searchInput]), $('<button type="submit" class="btn btn-default">').text('Search')]);
+      this.form.off('submit');
+      this.form.submit(this.onSubmit);
+    }
+
+    ItemSearchForm.prototype.render = function() {
+      return this.form;
+    };
+
+    ItemSearchForm.prototype.onSubmit = function(event) {
+      event.preventDefault();
+      return this.action(this.searchInput.val());
+    };
+
+    return ItemSearchForm;
+
+  })();
+
+}).call(this);
+
+// ================ 10: vendorlist.coffee ================
 
 (function() {
   var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -513,7 +570,7 @@
 
 }).call(this);
 
-// ================ 9: vendorinfo.coffee ================
+// ================ 11: vendorinfo.coffee ================
 
 (function() {
   this.VendorInfo = (function() {
@@ -541,7 +598,7 @@
 
 }).call(this);
 
-// ================ 10: receiptsum.coffee ================
+// ================ 12: receiptsum.coffee ================
 
 (function() {
   this.ReceiptSum = (function() {
@@ -570,7 +627,7 @@
 
 }).call(this);
 
-// ================ 11: printreceipttable.coffee ================
+// ================ 13: printreceipttable.coffee ================
 
 (function() {
   var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -623,7 +680,7 @@
 
 }).call(this);
 
-// ================ 12: modeswitcher.coffee ================
+// ================ 14: modeswitcher.coffee ================
 
 (function() {
   var _populateCommandRefs,
@@ -800,7 +857,7 @@
 
 }).call(this);
 
-// ================ 13: checkoutmode.coffee ================
+// ================ 15: checkoutmode.coffee ================
 
 (function() {
   var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
@@ -882,7 +939,7 @@
 
 }).call(this);
 
-// ================ 14: itemcheckoutmode.coffee ================
+// ================ 16: itemcheckoutmode.coffee ================
 
 (function() {
   var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -924,7 +981,7 @@
 
 }).call(this);
 
-// ================ 15: countervalidationmode.coffee ================
+// ================ 17: countervalidationmode.coffee ================
 
 (function() {
   var b64_to_utf8, utf8_to_b64,
@@ -1019,7 +1076,7 @@
 
 }).call(this);
 
-// ================ 16: clerkloginmode.coffee ================
+// ================ 18: clerkloginmode.coffee ================
 
 (function() {
   var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -1145,7 +1202,7 @@
 
 }).call(this);
 
-// ================ 17: itemcheckinmode.coffee ================
+// ================ 19: itemcheckinmode.coffee ================
 
 (function() {
   var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -1224,7 +1281,69 @@
 
 }).call(this);
 
-// ================ 18: vendorcheckoutmode.coffee ================
+// ================ 20: itemfindmode.coffee ================
+
+(function() {
+  var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  this.ItemFindMode = (function(superClass) {
+    extend(ItemFindMode, superClass);
+
+    ModeSwitcher.registerEntryPoint("item_find", ItemFindMode);
+
+    function ItemFindMode() {
+      this.onItemsFound = bind(this.onItemsFound, this);
+      this.doSearch = bind(this.doSearch, this);
+      ItemFindMode.__super__.constructor.apply(this, arguments);
+      this.itemList = new ItemFindList();
+      this.searchForm = new ItemSearchForm(this.doSearch);
+    }
+
+    ItemFindMode.prototype.enter = function() {
+      ItemFindMode.__super__.enter.apply(this, arguments);
+      this.cfg.uiRef.body.empty();
+      this.cfg.uiRef.body.append(this.searchForm.render());
+      return this.cfg.uiRef.body.append(this.itemList.render());
+    };
+
+    ItemFindMode.prototype.glyph = function() {
+      return "search";
+    };
+
+    ItemFindMode.prototype.title = function() {
+      return "Item Search";
+    };
+
+    ItemFindMode.prototype.doSearch = function(query) {
+      return Api.item_search({
+        query: query
+      }).done(this.onItemsFound);
+    };
+
+    ItemFindMode.prototype.onItemsFound = function(items) {
+      var i, index_, item_, len, results;
+      this.itemList.body.empty();
+      results = [];
+      for (index_ = i = 0, len = items.length; i < len; index_ = ++i) {
+        item_ = items[index_];
+        results.push(((function(_this) {
+          return function(item, index) {
+            return _this.itemList.append(item, index + 1);
+          };
+        })(this))(item_, index_));
+      }
+      return results;
+    };
+
+    return ItemFindMode;
+
+  })(CheckoutMode);
+
+}).call(this);
+
+// ================ 21: vendorcheckoutmode.coffee ================
 
 (function() {
   var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -1353,7 +1472,7 @@
 
 }).call(this);
 
-// ================ 19: countermode.coffee ================
+// ================ 22: countermode.coffee ================
 
 (function() {
   var ReceiptData,
@@ -1718,7 +1837,7 @@
 
 }).call(this);
 
-// ================ 20: receiptprintmode.coffee ================
+// ================ 23: receiptprintmode.coffee ================
 
 (function() {
   var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -1835,7 +1954,7 @@
 
 }).call(this);
 
-// ================ 21: vendorcompensation.coffee ================
+// ================ 24: vendorcompensation.coffee ================
 
 (function() {
   var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -1959,7 +2078,7 @@
 
 }).call(this);
 
-// ================ 22: vendorreport.coffee ================
+// ================ 25: vendorreport.coffee ================
 
 (function() {
   var tables,
@@ -2074,7 +2193,7 @@
 
 }).call(this);
 
-// ================ 23: vendorfindmode.coffee ================
+// ================ 26: vendorfindmode.coffee ================
 
 (function() {
   var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -2155,7 +2274,7 @@
 
 }).call(this);
 
-// ================ 24: number_test.coffee ================
+// ================ 27: number_test.coffee ================
 
 (function() {
   var NUM_PAT;

@@ -6,7 +6,23 @@
 
 {% block head %}
     <link href="{% static "kirppu/css/general.css" %}" rel="stylesheet">
+    <link href="{% static "kirppu/css/checkout.css" %}" rel="stylesheet">
     <script src="{% static "kirppu/js/general.js" %}"></script>
+    <script src="{% static "kirppu/js/checkout.js" %}"></script>
+    <script src="{% static "kirppu/js/checkout_comp.js" %}"></script>
+{% endblock %}
+
+{% block navbar_left %}
+    <li class="dropdown" id="modeMenu"><a href="javascript:void(1)" class="dropdown-toggle" data-toggle="dropdown">Actions<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+        <li>
+            <a href="javascript:void(1)" data-entrypoint="item_find">
+                <span class="glyphicon glyphicon-search"></span>
+                Item Search
+            </a>
+        </li>
+        </ul>
+    </li>
 {% endblock %}
 
 {% block navbar_right %}
@@ -18,4 +34,39 @@
         <span id="mode_glyph" class="glyphicon glyphicon-dashboard"></span>
         <span id="title_text">Overseer Dashboard</span>
     </h1>
-{% endblock  %}
+
+    <div id="receipt_body"></div>
+{% endblock %}
+
+{% block tail %}
+<div id="ignored" class="hidden"></div>
+
+<script type="application/javascript"
+        src="{% url 'kirppu:checkout_js' %}"
+        charset="UTF-8"></script>
+<script type="application/javascript"><!--
+    CheckoutConfig.uiId.container = "body";
+    CheckoutConfig.uiId.body = "receipt_body";
+    CheckoutConfig.uiId.glyph = "mode_glyph";
+    CheckoutConfig.uiId.stateText = "title_text";
+    CheckoutConfig.uiId.modeMenu = "modeMenu";
+
+    CheckoutConfig.uiId.errorText = "ignored";
+    CheckoutConfig.uiId.warningText = "ignored";
+    CheckoutConfig.uiId.subtitleText = "ignored";
+    CheckoutConfig.uiId.codeInput = "ignored";
+    CheckoutConfig.uiId.codeForm = "ignored";
+    CheckoutConfig.uiId.overseerLink= "ignored";
+    CheckoutConfig.uiId.dialog = "ignored";
+
+    DateTimeFormatter.locales = "{{ LANGUAGE_CODE }}";
+    DateTimeFormatter.timeZone = "{{ TIME_ZONE }}";
+    DateTimeFormatter.init();
+
+    $(document).ready(function() {
+        setupAjax();
+        CheckoutConfig.check();
+        new ModeSwitcher();
+    });
+//--></script>
+{% endblock %}
