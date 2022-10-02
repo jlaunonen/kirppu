@@ -128,6 +128,19 @@ py.test -vvv --cov . --doctest-modules
         - Input your access code.
           Alternatively, add `KIRPPU_AUTO_CLERK = "*"` to `kirppu_project/local_settings.py` or env file.
 
+#### Browser tests
+
+Implemented using [Playwright](https://playwright.dev/python/).
+See [its documentation](https://playwright.dev/python/docs/intro) for more information.
+
+- Install test browser(s): `playwright install firefox`
+  - By default, the downloads are stored in `~/.cache/ms-playwright` (depending on host system).
+  - Download path can be customized by `PLAYWRIGHT_BROWSERS_PATH` environment variable.
+    That needs to be set during install and test runs.
+  - If you install other browsers and use `make`, write the browsers in `makevars` -file to `BROWSERS` variable.
+- Run browser tests (headless): `make browsertest`
+  - For headed mode, run `make browsertest ARGS=--headed`
+
 
 ### Updating dependencies
 

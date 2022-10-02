@@ -10,6 +10,10 @@ asgiref
     # via django
 build
     # via pip-tools
+certifi
+    # via requests
+charset-normalizer
+    # via requests
 click
     # via pip-tools
 coverage[toml]
@@ -32,6 +36,10 @@ faker
     #   kirppu (pyproject.toml)
 future
     # via pubcode
+greenlet
+    # via playwright
+idna
+    # via requests
 iniconfig
     # via pytest
 mistune
@@ -44,30 +52,46 @@ pillow
     # via kirppu (pyproject.toml)
 pip-tools
     # via kirppu (pyproject.toml)
+playwright
+    # via pytest-playwright
 pluggy
     # via pytest
 pubcode
     # via kirppu (pyproject.toml)
+pyee
+    # via playwright
 pyproject-hooks
     # via build
 pytest
     # via
     #   kirppu (pyproject.toml)
+    #   pytest-base-url
     #   pytest-cov
     #   pytest-django
     #   pytest-env
+    #   pytest-playwright
+pytest-base-url
+    # via pytest-playwright
 pytest-cov
     # via kirppu (pyproject.toml)
 pytest-django
     # via kirppu (pyproject.toml)
 pytest-env
     # via kirppu (pyproject.toml)
+pytest-playwright
+    # via kirppu (pyproject.toml)
 python-dateutil
     # via faker
+python-slugify
+    # via pytest-playwright
+requests
+    # via pytest-base-url
 six
     # via python-dateutil
 sqlparse
     # via django
+text-unidecode
+    # via python-slugify
 tomli
     # via
     #   build
@@ -76,7 +100,11 @@ tomli
     #   pyproject-hooks
     #   pytest
 typing-extensions
-    # via asgiref
+    # via
+    #   asgiref
+    #   pyee
+urllib3
+    # via requests
 wheel
     # via pip-tools
 whitenoise

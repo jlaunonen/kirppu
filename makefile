@@ -1,5 +1,6 @@
 PYTHON := python
 LANGUAGES := fi en
+BROWSERS := firefox
 
 # Optionally include user variables.
 sinclude makevars
@@ -10,6 +11,9 @@ MM_ARGS = $(foreach lang, ${LANGUAGES}, -l ${lang}) -i KirppuVenv -i node_module
 ifeq ($(origin VIRTUAL_ENV), undefined)
 PFX := ./KirppuVenv/bin/
 endif
+
+PW_ARGS = $(foreach browser, ${BROWSERS}, --browser=${browser})
+
 
 default: help
 
@@ -34,8 +38,14 @@ cloc:     ## Count project lines using cloc.
 apistub:  ## Create/update ajax_api stub file helping navigation from frontend code to backend.
 	find kirppu -! -path "kirppu/node_modules*" -name \*.py -exec python3 make_api_stub.py --js kirppu/static_src/js/api_stub.js --py kirppu/tests/api_access.pyi -- {} +
 
-test:     ## Run tests
-	DEBUG=1 ${PFX}py.test -vvv
+test:     ## Run unit tests
+	DEBUG=1 ${PFX}py.test -vvv -m "not web" ${ARGS}
+
+browsertest:  ## Run browser tests
+	DEBUG=1 DJANGO_ALLOW_ASYNC_UNSAFE=true ${PFX}py.test -vvv -m "web" ${PW_ARGS} ${ARGS}
+
+alltests:  ## Run unit and browser tests
+	DEBUG=1 DJANGO_ALLOW_ASYNC_UNSAFE=true ${PFX}py.test -vvv -m "not web or web" ${PW_ARGS} ${ARGS}
 
 update-constraints:  ## Update constraints.txt to match pyproject.toml
 	pip-compile --all-extras --output-file=constraints.txt --strip-extras --upgrade
@@ -45,6 +55,6 @@ requirement-sets:  ## Generate requirements-* files.
 	scripts/generate-dep-set.py --extra oauth --extra production -o "requirements-production.txt"
 
 help:     ## This help.
-	@grep -F -h "#""#" $(MAKEFILE_LIST) | sed -e "s/:\\s*#""#/\n\t/" -e "s/\\s*#""#/\t/"
+	@grep -F -h "#""#" $(MAKEFILE_LIST) | sed -e "s/:[^#]*#""#/\n\t/" -e "s/\\s*#""#/\t/"
 
 .PHONY: apistub c cloc compile default help messages requirement-sets static test update-constraints

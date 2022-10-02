@@ -1,7 +1,7 @@
 {% load kirppu_login i18n %}
 {% if user.is_authenticated %}
     <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <a data-testid="user_actions" class="dropdown-toggle" data-toggle="dropdown" href="#">
             {{ user.first_name }} {{ user.last_name }}
             <b class="caret"></b>
         </a>
@@ -13,5 +13,5 @@
         </ul>
     </li>
 {% else %}
-    <li><a href="{% kirppu_login_url event.get_absolute_url %}">{% trans "Log in" %}</a></li>
+    <li><a data-testid="user_actions" href="{% kirppu_login_url event.get_absolute_url %}">{% trans "Log in" %}</a></li>
 {% endif %}

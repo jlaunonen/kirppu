@@ -33,6 +33,7 @@ dev = [
     "pytest-django~=4.5.0",
     "pytest-env~=1.0.0",
     "pytest-cov~=4.0",
+    "pytest-playwright",
     "pip-tools~=7.3",
 ]
 
@@ -54,8 +55,9 @@ wrap_length = 120
 
 
 [tool.pytest.ini_options]
-addopts = "--tb=short"
+addopts = "--tb=short -m \"not web\""
 norecursedirs = "*.egg .* .git build dist node_modules* venv KirppuVenv* {arch} private kompassi*"
+markers = "web: marks WebDriver/Selenium tests (deselect with '-m \"not web\"')"
 DJANGO_SETTINGS_MODULE = "kirppu_project.settings"
 
 
