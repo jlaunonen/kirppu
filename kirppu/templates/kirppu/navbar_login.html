@@ -9,7 +9,14 @@
             {% if profile_url %}
             <li><a href="{{ profile_url }}" target="_blank">{% trans "Profile" %}</a></li>
             {% endif %}
-            <li><a href="{% kirppu_logout_url event.get_absolute_url %}">{% trans "Log out" %}</a></li>
+            <li>
+                <a class="logout-item" id="logout-menuitem">
+                    <form method="post" action="{% kirppu_logout_url event.get_absolute_url %}">
+                        {% csrf_token %}
+                        <button type="submit">{% trans "Log out" %}</button>
+                    </form>
+                </a>
+            </li>
         </ul>
     </li>
 {% else %}
