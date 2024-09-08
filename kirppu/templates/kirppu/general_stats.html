@@ -53,33 +53,33 @@
     <script type="application/json" data-id="brought">{{ brought }}</script>
     <script type="application/json" data-id="config">{
         "stats": "general",
-        "graphs": {
-            "compensations": {
+        "graphs": [
+            {
                 "graph": "graph2",
                 "legend": "graph2_legend",
                 "numbers": "graph2_numbers",
-                "content": "compensations",
+                "data_id": "compensations",
                 "xlabel": {{ tlCompensationsLabel|replaceCurrency|json }},
                 "bucket": 50
             },
-            "purchases": {
+            {
                 "graph": "graph1",
                 "legend": "graph1_legend",
                 "numbers": "graph1_numbers",
-                "content": "purchases",
+                "data_id": "purchases",
                 "xlabel": {{ tlPurchasesLabel|replaceCurrency|json }},
                 "bucket": 2
             },
-            "brought": {
+            {
                 "graph": "graph3",
                 "legend": "graph3_legend",
                 "numbers": "graph3_numbers",
-                "content": "brought",
+                "data_id": "brought",
                 "unit": "",
                 "xlabel": {{ tlBroughtLabel|json }},
                 "bucket": 5
             }
-        },
+        ],
         "CURRENCY": {{ CURRENCY|json }}
     }</script>
 

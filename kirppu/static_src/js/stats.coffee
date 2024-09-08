@@ -347,8 +347,8 @@ getJson = (id) ->
 
 initGeneralStats = (options) ->
   currencyFormatter = createCurrencyFormatter(options.CURRENCY)
-  for _, cfg of options.graphs
-    data = getJson(cfg.content)
+  for cfg in options.graphs
+    data = getJson(cfg.data_id)
 
     if cfg.unit?
       valueFormatter = (v) -> "" + v + " " + cfg.unit
