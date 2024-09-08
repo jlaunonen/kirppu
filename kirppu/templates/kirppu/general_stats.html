@@ -40,6 +40,8 @@
 {% trans "%s / purchase" as tlPurchasesLabel %}
 {% trans "Brought" as tlBrought %}
 {% trans "items / vendor" as tlBroughtLabel %}
+{% trans "Brought prices" as tlBroughtPrices %}
+{% trans "%s / item" as tlBroughtPricesLabel %}
 
     <h1>
         <span id="mode_glyph" class="glyphicon glyphicon glyphicon-signal"></span>
@@ -51,6 +53,7 @@
     <script type="application/json" data-id="compensations">{{ compensations }}</script>
     <script type="application/json" data-id="purchases">{{ purchases }}</script>
     <script type="application/json" data-id="brought">{{ brought }}</script>
+    <script type="application/json" data-id="brought_prices">{{ brought_prices }}</script>
     <script type="application/json" data-id="config">{
         "stats": "general",
         "graphs": [
@@ -78,6 +81,14 @@
                 "unit": "",
                 "xlabel": {{ tlBroughtLabel|json }},
                 "bucket": 5
+            },
+            {
+                "graph": "graph4",
+                "legend": "graph4_legend",
+                "numbers": "graph4_numbers",
+                "data_id": "brought_prices",
+                "xlabel": {{ tlBroughtPricesLabel|replaceCurrency|json }},
+                "bucket": 2
             }
         ],
         "CURRENCY": {{ CURRENCY|json }}
@@ -158,5 +169,6 @@
     {% include "kirppu/general_stats_graph.html" with id="graph1" title=tlPurchases %}
     {% include "kirppu/general_stats_graph.html" with id="graph2" title=tlCompensations %}
     {% include "kirppu/general_stats_graph.html" with id="graph3" title=tlBrought %}
+    {% include "kirppu/general_stats_graph.html" with id="graph4" title=tlBroughtPrices %}
 
 {% endblock  %}
