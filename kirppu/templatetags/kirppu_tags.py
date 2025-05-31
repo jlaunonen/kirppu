@@ -32,13 +32,16 @@ def _get_ui_text_query(context, id_):
 def load_text(context: template.Context, id_: str) -> str:
     q = {"identifier": id_}
     previews = context.get("allow_preview", False)
+    extra_context = {}
     if previews:
         preview_id = context["request"].GET.get("preview")
         if preview_id:
             q = {"pk": int(preview_id)}
+            extra_context["colorize"] = True
     try:
-        md = _get_ui_text_query(context, id_).get(**q).text
-        return mark_safe(mark_down(md, context))
+        with context.update(extra_context):
+            md = _get_ui_text_query(context, id_).get(**q).text
+            return mark_safe(mark_down(md, context))
     except UIText.DoesNotExist:
         if settings.DEBUG:
             return format_html(
