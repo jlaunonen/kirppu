@@ -9,10 +9,10 @@ dependencies = [
     "django-ipware~=7.0.0",
     "django-ratelimit~=4.0",
     "django~=5.1.0",
-    "pillow~=10.0",
+    "pillow~=11.0",
     "pubcode~=1.1.0",
-    "mistune~=3.0.0",
-    "whitenoise~=6.5.0",
+    "mistune~=3.1.0",
+    "whitenoise~=6.9.0",
 ]
 
 
@@ -28,11 +28,11 @@ production = [
 ]
 dev = [
     "factory-boy~=3.3.0",
-    "Faker~=19.0",
-    "pytest~=7.4.0",
-    "pytest-django~=4.5.0",
-    "pytest-env~=1.0.0",
-    "pytest-cov~=4.0",
+    "Faker~=37.0",
+    "pytest~=8.4.0",
+    "pytest-django~=4.11.0",
+    "pytest-env~=1.1.0",
+    "pytest-cov~=6.0",
     "pip-tools~=7.3",
 ]
 
