@@ -168,9 +168,9 @@ const simpleWildcard = function(pattern, file) {
             return false;
         }
         return new RegExp(pattern
-            .replace(".", "\.")
-            .replace("?", ".")
-            .replace("*", ".*")
+            .replaceAll(".", "\\.")
+            .replaceAll("?", ".")
+            .replaceAll("*", ".*")
         ).exec(file) != null
     }
     return false
