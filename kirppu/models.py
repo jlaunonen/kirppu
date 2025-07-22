@@ -1,3 +1,4 @@
+import datetime
 from decimal import Decimal
 import enum
 import random
@@ -1620,7 +1621,7 @@ class ItemStateLog(models.Model):
 
 def default_temporary_access_permit_expiry(minutes: int = None):
     minutes = minutes or settings.KIRPPU_SHORT_CODE_EXPIRATION_TIME_MINUTES
-    return timezone.now() + timezone.timedelta(minutes=minutes)
+    return timezone.now() + datetime.timedelta(minutes=minutes)
 
 
 class TemporaryAccessPermit(models.Model):

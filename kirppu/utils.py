@@ -3,6 +3,7 @@ from functools import wraps
 from django.core.exceptions import PermissionDenied
 import django.forms
 from django.http.response import HttpResponseForbidden, HttpResponseBadRequest
+from django.utils.functional import Promise
 from django.utils.html import conditional_escape, format_html, mark_safe
 from django.utils.translation import gettext as _
 from django.utils import timezone
@@ -224,12 +225,11 @@ def barcode_view(fn):
     return inner
 
 
-def short_description(text):
+def short_description(text: str | Promise):
     """
     Decorator for property functions (or other functions) adding short_description to the function.
 
     :param text: Text to add.
-    :type text: str
     """
     def wrap(fn):
         fn.short_description = text
