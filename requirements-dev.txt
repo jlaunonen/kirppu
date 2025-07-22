@@ -64,6 +64,8 @@ pytest-env
     # via kirppu (pyproject.toml)
 python-dateutil
     # via faker
+python-ipware
+    # via django-ipware
 six
     # via python-dateutil
 sqlparse

@@ -4,23 +4,23 @@
 #
 #    pip-compile --all-extras --output-file=constraints.txt --strip-extras
 #
-asgiref==3.8.1
+asgiref==3.9.1
     # via django
 build==1.2.2.post1
     # via pip-tools
-certifi==2025.4.26
+certifi==2025.7.14
     # via requests
 charset-normalizer==3.4.2
     # via requests
 click==8.2.1
     # via pip-tools
-coverage==7.8.2
+coverage==7.9.2
     # via pytest-cov
-django==5.0.14
+django==5.1.11
     # via kirppu (pyproject.toml)
-django-environ==0.11.2
+django-environ==0.12.0
     # via kirppu (pyproject.toml)
-django-ipware==5.0.2
+django-ipware==7.0.1
     # via kirppu (pyproject.toml)
 django-ratelimit==4.1.0
     # via kirppu (pyproject.toml)
@@ -79,7 +79,9 @@ pytest-env==1.0.1
     # via kirppu (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via faker
-requests==2.32.3
+python-ipware==3.0.0
+    # via django-ipware
+requests==2.32.4
     # via
     #   kirppu (pyproject.toml)
     #   requests-oauthlib
@@ -89,9 +91,9 @@ six==1.17.0
     # via python-dateutil
 sqlparse==0.5.3
     # via django
-typing-extensions==4.13.2
+typing-extensions==4.14.1
     # via psycopg
-urllib3==2.4.0
+urllib3==2.5.0
     # via requests
 wheel==0.45.1
     # via pip-tools
