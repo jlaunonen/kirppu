@@ -45,7 +45,7 @@
             <div class="row box_empty_row"></div>
             <div class="row box_empty_row" style="height: 5em;"></div>
 
-            {% include 'kirppu/app_items_item.html' with controls_enabled=False code=item.code vendor_id=box.get_vendor_id tag_type="short" locked=True %}
+            {% include 'kirppu/app_items_item.html' with controls_enabled=False code=item.code vendor_id=box.get_vendor_id tag_type="short" item_type=item.get_itemtype_display locked=True %}
 
             <div class="row" style="height: 10cm;"></div>
             <div class="row" style="color: lightgray; border-top: 1px lightgray dashed;">

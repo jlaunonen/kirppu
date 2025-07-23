@@ -12,7 +12,10 @@
             {% if tag_type != "list" %}
                 <div class="barcode_container">
                     <img class="barcode_img" src="{% barcode_dataurl code bar_type %}" alt="Barcode: {{ code }}" />
-                    <div class="item_extra_code">{{ code }}</div>
+                </div>
+                <div class="item_extra_info">
+                    <span class="item_extra_code">{{ code }}</span>
+                    <span class="item_extra_type">{{ item_type }}</span>
                 </div>
                 {% if adult == "yes" %}
                     <div class="item_adult_tag">K-18</div>
@@ -20,6 +23,7 @@
                     <div class="item_adult_tag"></div>
                 {% endif %}
                 <div class="item_vendor_id">{{ vendor_id }}</div>
+                <div class="item_extra_code rotated">{{ code }}</div>
             {% endif %}
         </div>
         <img src="{% static "kirppu/img/roller.gif" %}" class="spinner" style="display: none;" />

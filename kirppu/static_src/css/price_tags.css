@@ -85,6 +85,7 @@ html, :root {
     float: left;
     width: 9.3cm;
     position: relative; /* Needed for absolute positioning of child elements. */
+    overflow: hidden;
 }
 .item_short .item_body {
     width: 100%;
@@ -220,7 +221,7 @@ html, :root {
     margin-left: auto;
     margin-right: auto;
     width: 286px;
-    height: 1.4cm;
+    height: 1.2cm;
     image-rendering: -moz-crisp-edges;         /* Firefox */
     image-rendering:   -o-crisp-edges;         /* Opera */
     image-rendering: -webkit-optimize-contrast;/* Safari (non-standard naming) */
@@ -257,16 +258,36 @@ html, :root {
 .item_vendor_id:before {
     content: 'Vendor: '
 }
-.item_extra_code {
+.item_extra_info {
     position: relative;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 90px;
-    margin-top: -0.25cm;
-    background-color: white;
-    text-align: center;
+    margin-left: 15px;
+    overflow: clip;
+    text-wrap: nowrap;
     z-index: 100;
+}
+.item_extra_info .item_extra_code {
+    display: inline-block;
+    width: 90px;
+    text-align: center;
+}
+.item_extra_info .item_extra_type {
+    display: inline-block;
+}
+.item_extra_code.rotated {
+    position: absolute;
+    background: white;
+    transform-origin: right top;
+    transform: rotate(-90deg);
+    right: 25px;
+    top: 36px;
+    font-size: smaller;
+    z-index: 100;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.item_container button {
+    z-index: 150;
 }
 
 

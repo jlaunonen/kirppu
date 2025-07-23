@@ -437,7 +437,7 @@ def get_items(request, event_slug, bar_type):
         raise NotImplementedError  # FIXME: Decide how this should work.
 
     vendor_items = Item.objects.filter(vendor=vendor, hidden=False, box__isnull=True)
-    items = vendor_items.filter(printed=False)
+    items = vendor_items.filter(printed=False).annotate(item_type=models.F("itemtype__title"))
     printed_items = vendor_items.filter(printed=True)
 
     # Order from newest to oldest, because that way new items are added

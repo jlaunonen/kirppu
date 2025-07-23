@@ -198,11 +198,8 @@
 #box_content .item_container {
     border: none;
 }
-#box_content .item_vendor_id {
-    position: relative;
-    top: 0;
-    left: initial;
-    text-align: center;
+#box_content .item_extra_code.rotated {
+    display: none;
 }
 
 @media screen, projection, handheld {
