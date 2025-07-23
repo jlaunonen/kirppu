@@ -199,15 +199,8 @@ def item_to_not_printed(request, event_slug, code):
             new_item = item
         item.save(update_fields=("hidden", "printed"))
 
-    item_dict = {
-        'vendor_id': new_item.vendor_id,
-        'code': new_item.code,
-        'barcode_dataurl': get_dataurl(item.code, 'png'),
-        'name': new_item.name,
-        'price': str(new_item.price).replace('.', ','),
-        'type': new_item.type,
-        'adult': new_item.adult,
-    }
+    item_dict = new_item.as_public_dict()
+    item_dict["barcode_dataurl"] = get_dataurl(new_item.code, "png")
 
     return HttpResponse(json.dumps(item_dict), 'application/json')
 
@@ -242,10 +235,10 @@ def item_update_price(request, event, code):
         if item.is_locked():
             return HttpResponseBadRequest("Item has been brought to event. Price can't be changed.")
 
-        item.price = str(price)
+        item.price = price
         item.save(update_fields=("price",))
 
-    return PlainResponse(str(price).replace(".", ","))
+    return PlainResponse(str(item.price_fmt).replace(".", ","))
 
 
 @login_required
