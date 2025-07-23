@@ -98,6 +98,12 @@ __all__ = [
 ]
 
 
+class PlainResponse(HttpResponse):
+    def __init__(self, content=b"", **kwargs):
+        kwargs.setdefault("content_type", "text/plain; charset=utf-8")
+        super().__init__(content, **kwargs)
+
+
 def index(request):
     return redirect("kirppu:front_page")
 
@@ -160,7 +166,7 @@ def item_hide(request, event_slug, code):
         item.hidden = True
         item.save(update_fields=("hidden",))
 
-    return HttpResponse()
+    return PlainResponse()
 
 
 @login_required
@@ -217,7 +223,7 @@ def item_to_printed(request, event_slug, code):
         item.printed = True
         item.save(update_fields=("printed",))
 
-    return HttpResponse()
+    return PlainResponse()
 
 
 @login_required
@@ -239,7 +245,7 @@ def item_update_price(request, event, code):
         item.price = str(price)
         item.save(update_fields=("price",))
 
-    return HttpResponse(str(price).replace(".", ","))
+    return PlainResponse(str(price).replace(".", ","))
 
 
 @login_required
@@ -263,7 +269,7 @@ def item_update_name(request, event, code):
         item.name = name
         item.save(update_fields=("name",))
 
-    return HttpResponse(name)
+    return PlainResponse(name)
 
 
 @login_required
@@ -277,7 +283,7 @@ def item_update_type(request, event_slug, code):
         item = get_object_or_404(Item.objects.select_for_update(), code=code, vendor=vendor)
         item.type = tag_type
         item.save(update_fields=("type",))
-    return HttpResponse()
+    return PlainResponse()
 
 
 @login_required
@@ -289,7 +295,7 @@ def all_to_print(request, event_slug):
 
     items.update(printed=True)
 
-    return HttpResponse()
+    return PlainResponse()
 
 
 @login_required
@@ -353,7 +359,7 @@ def box_hide(request, event_slug, box_id):
 
         box.set_hidden(True)
 
-    return HttpResponse()
+    return PlainResponse()
 
 
 @login_required
@@ -373,7 +379,7 @@ def box_print(request, event_slug, box_id):
 
         box.set_printed(True)
 
-    return HttpResponse()
+    return PlainResponse()
 
 
 @login_required

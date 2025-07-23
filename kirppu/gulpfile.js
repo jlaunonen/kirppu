@@ -105,9 +105,10 @@ const cssTasks = Object.entries(pipeline.css).map(function([name, def]) {
 
 const rollupTasks = Object.entries(pipeline.rollup).map(function([name, def]) {
     const taskName = "rollup:" + name;
+    const input = def.source_filename ? srcPrepend(def.source_filename) : srcPrepend(def);
     gulp.task(taskName, function() {
         return rollup.rollup({
-            input: srcPrepend(def.source_filename),
+            input: input,
             plugins: [
                 rollup_sucrase({
                     jsxPragma: 'redom.el',

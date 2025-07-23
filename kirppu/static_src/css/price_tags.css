@@ -1,3 +1,11 @@
+html, :root {
+    --input-focus-border-color: #00aaff;
+    --input-border-color: #44a;
+    --input-border-size: 2px;
+    --input-border-neg-size: -2px;
+    --input-border: var(--input-border-size) solid;
+}
+
 #item-add-form, #item-add-controls {
     width: 19cm;
 }
@@ -91,16 +99,18 @@
 }
 
 .item_price {
+    display: inline-block;
     width: 2.5cm;
     font-size: 150%;
-    margin-top: 3px;
-    margin: 2px; /* Compensate for border not being there for locked items */
+    margin-left: var(--input-border-size);
+    margin-top: var(--input-border-neg-size);
 }
 
 @media screen, projection, handheld {
     .item_editable .item_price {
-        margin: 0px;
-        border: 2px inset;
+        margin-left: 0;
+        height: 1.6em;
+        border: var(--input-border) var(--input-border-color);
     }
 }
 
@@ -115,14 +125,28 @@
 }
 
 /* Price tag edit forms. */
-.item_editable .item_body form {
-    display: inline;
+.item_editable .item_body form:has(input:focus) {
+    border: var(--input-border) var(--input-focus-border-color);
+    position: relative;
+    z-index: 100;
 }
 .item_editable .item_body form input {
     background: transparent;
     margin: 0;
     padding: 0;
     border: none;
+    outline: none;
+    width: 100%;
+    min-height: 0;
+}
+.item_container {
+    position: relative;
+}
+.item_container img.spinner {
+    display: inline-block;
+    position: absolute;
+    left: 46%;
+    top: 8px;
 }
 
 .item_head_price {
@@ -150,8 +174,8 @@
 
 @media screen, projection, handheld {
     .item_editable .item_name {
-        margin: 0px;
-        border: 2px inset;
+        margin: 0;
+        border: var(--input-border) var(--input-border-color);
     }
 }
 

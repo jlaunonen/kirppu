@@ -1,6 +1,6 @@
-{% load kirppu_tags %}{% load i18n %}
+{% load kirppu_tags i18n static %}
 
-    <div class="item_container item_{{ tag_type }} {{ locked|yesno:',item_editable' }}" id="{{ code }}">
+    <div class="item_container item_{{ tag_type }} {{ locked|yesno:',item_editable' }}" id="{{ code }}" data-code="{{ code }}">
         {% if tag_type != "list" %}
             <div class="item_head">
                 <span class="item_head_price price">{{ price }}</span>
@@ -22,6 +22,7 @@
                 <div class="item_vendor_id">{{ vendor_id }}</div>
             {% endif %}
         </div>
+        <img src="{% static "kirppu/img/roller.gif" %}" class="spinner" style="display: none;" />
 
         {% if controls_enabled %}
             <button class="item_button_hide" title="{% trans "Permanently remove the item." %}" type="button"><span class="glyphicon glyphicon-remove"></span></button>
