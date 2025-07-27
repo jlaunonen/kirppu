@@ -1,5 +1,5 @@
 html, :root {
-    --input-focus-border-color: #00aaff;
+    --input-focus-border-color: #66afe9;
     --input-border-color: #44a;
     --input-border-size: 2px;
     --input-border-neg-size: -2px;
@@ -129,6 +129,8 @@ html, :root {
     border: var(--input-border) var(--input-focus-border-color);
     position: relative;
     z-index: 100;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 .item_editable .item_body form input {
     background: transparent;
@@ -197,7 +199,6 @@ html, :root {
 /* This container is for centering the barcode text on the barcode.
    So it should be the same size or bigger than the barcode img. */
 .barcode_container {
-    left: 0cm;
     width: 286px;
 }
 .item_short .barcode_container {
@@ -265,6 +266,7 @@ html, :root {
     margin-top: -0.25cm;
     background-color: white;
     text-align: center;
+    z-index: 100;
 }
 
 
