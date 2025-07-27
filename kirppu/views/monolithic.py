@@ -471,6 +471,7 @@ def get_items(request, event_slug, bar_type):
         'itemTypes': ItemType.as_tuple(event),
         'CURRENCY': settings.KIRPPU_CURRENCY,
         'PRICE_MIN_MAX': settings.KIRPPU_MIN_MAX_PRICE,
+        'name_max_len': Item._meta.get_field('name').max_length,
     }
     render_params.update(vendor_data)
 

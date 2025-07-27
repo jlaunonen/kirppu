@@ -18,6 +18,7 @@ class PriceTagsConfig
   enabled: true
   price_min: 0
   price_max: 400
+  name_max_len: 50
 
   constructor: ->
 
@@ -192,7 +193,7 @@ spinner = (from, display) ->
 # @param classname [String] Field classname.
 # @param placeholder [String] Placeholder text for the input field.
 # @param callback [function?] Optional callback, called with .item_container and value returned.
-bindEditable = (urlFn, classname, placeholder, callback) ->
+bindEditable = (urlFn, classname, placeholder, callback, max_len = 50) ->
   new Malle.Malle(
     tooltip: gettext("Click to edit...")
     placeholder: placeholder
@@ -208,6 +209,9 @@ bindEditable = (urlFn, classname, placeholder, callback) ->
     # There seems to be a bug in Malle's internal diff behavior where second blur leaves the form open.
     # Ignore it by always entering in fun and check the diff by ourselves.
     requireDiff: false
+
+    onEdit: (original, event, input) ->
+      input.maxLength = max_len
 
     fun: (value, original, event, input) ->
       code = getCode(input)
@@ -371,7 +375,7 @@ bindItemToggleEvents = (tag, code) ->
 # @param tags [String] A set of '.item_container' elements.
 bindTagEvents = (tags) ->
   if C.enabled
-    bindEditable(C.name_update_url, "item_name", gettext("Name"))
+    bindEditable(C.name_update_url, "item_name", gettext("Name"), C.name_max_len)
     bindEditable(C.price_update_url, "item_price", gettext("Price"), (tag, value) ->
       $(".item_head_price", tag).text(value)
     )

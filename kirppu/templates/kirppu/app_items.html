@@ -153,6 +153,7 @@
         itemsConfig.urls.all_to_print = "{% url 'kirppu:all_to_print' event_slug=event.slug %}";
         itemsConfig.urls.item_to_print = "{% url 'kirppu:item_to_not_printed' event_slug=event.slug code='__placeholder__' %}";
         itemsConfig.urls.item_hide = "{% url 'kirppu:item_hide' event_slug=event.slug code='__placeholder__' %}";
+        itemsConfig.name_max_len = {{ name_max_len }};
         {% if not is_registration_open %}itemsConfig.enabled = false;{% endif %}
         {% if PRICE_MIN_MAX %}
         itemsConfig.price_min = {{ PRICE_MIN_MAX.0 }};
