@@ -13,6 +13,7 @@
     <a class="logout-item pull-right btn btn-link">
         <form method="post" action="{% url "kirppu:mobile_logout" event_slug=event_slug %}">
             {% csrf_token %}
+            {% if logout_next %}<input type="hidden" name="next" value="{{ logout_next }}"/>{% endif %}
             <button type="submit"><span class="glyphicon glyphicon-log-out"> </span></button>
         </form>
     </a>
@@ -25,6 +26,7 @@
         <a class="logout-item">
             <form method="post" action="{% url "kirppu:mobile_logout" event_slug=event_slug %}">
                 {% csrf_token %}
+                {% if logout_next %}<input type="hidden" name="next" value="{{ logout_next }}"/>{% endif %}
                 <button type="submit"><span class="glyphicon glyphicon-log-out"></span> {% trans "Log out" %}</button>
             </form>
         </a>

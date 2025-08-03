@@ -23,6 +23,7 @@ from django.http import Http404
 from django.shortcuts import (
     redirect,
     render,
+    reverse,
     get_object_or_404,
 )
 from django.utils import timezone
@@ -465,6 +466,7 @@ def get_items(request, event_slug, bar_type):
         'CURRENCY': settings.KIRPPU_CURRENCY,
         'PRICE_MIN_MAX': settings.KIRPPU_MIN_MAX_PRICE,
         'name_max_len': Item._meta.get_field('name').max_length,
+        "logout_next": reverse("kirppu:vendor_view", kwargs={"event_slug": event.slug}),
     }
     render_params.update(vendor_data)
 
@@ -519,6 +521,7 @@ def get_boxes(request, event_slug):
         'itemTypes': ItemType.as_tuple(event),
         'CURRENCY': settings.KIRPPU_CURRENCY,
         'PRICE_MIN_MAX': settings.KIRPPU_MIN_MAX_PRICE,
+        "logout_next": reverse("kirppu:vendor_view", kwargs={"event_slug": event.slug}),
     }
     render_params.update(vendor_data)
 
@@ -916,6 +919,7 @@ def vendor_view(request, event_slug):
         'CURRENCY': settings.KIRPPU_CURRENCY,
         "allow_preview": is_manager,
         "uiTextVars": ui_text_vars(event),
+        "logout_next": request.path,
     }
     context.update(vendor_data)
     return render(request, "kirppu/app_frontpage.html", context)

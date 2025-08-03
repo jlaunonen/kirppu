@@ -13,6 +13,7 @@
                 <a class="logout-item" id="logout-menuitem">
                     <form method="post" action="{% kirppu_logout_url event.get_absolute_url %}">
                         {% csrf_token %}
+                        {% if logout_next %}<input type="hidden" name="next" value="{{ logout_next }}" />{% endif %}
                         <button type="submit">{% trans "Log out" %}</button>
                     </form>
                 </a>

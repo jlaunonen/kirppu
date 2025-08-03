@@ -181,6 +181,7 @@ def _data_view(request, event: Event, permit):
                 "event": event,
                 "event_slug": original_event.slug,
                 "vendor": request.user,
+                "logout_next": reverse("kirppu:vendor_view", kwargs={"event_slug": event.slug}),
             })
 
     if default_database and not vendor.mobile_view_visited:
@@ -300,6 +301,7 @@ def _data_view(request, event: Event, permit):
         "tables": tables,
         "CURRENCY": settings.KIRPPU_CURRENCY,
         "vendor": vendor.id,
+        "logout_next": reverse("kirppu:vendor_view", kwargs={"event_slug": event.slug}),
     })
 
 
