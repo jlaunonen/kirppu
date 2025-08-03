@@ -2,7 +2,11 @@
 {% if user.is_authenticated %}
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            {{ user.first_name }} {{ user.last_name }}
+            {% if user.first_name or user.last_name %}
+                {{ user.first_name }} {{ user.last_name }}
+            {% else %}
+                {{ user.email|default:user.get_username|default:"&mldr;" }}
+            {% endif %}
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
