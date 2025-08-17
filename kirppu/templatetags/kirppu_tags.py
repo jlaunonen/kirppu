@@ -7,7 +7,6 @@ import warnings
 
 from django import template
 from django.conf import settings
-from django.utils.encoding import force_str
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
@@ -45,24 +44,22 @@ def load_text(context: template.Context, id_: str) -> str:
     except UIText.DoesNotExist:
         if settings.DEBUG:
             return format_html(
-                u'<span style="background-color: lightyellow;'
-                u' color: black;'
-                u' border: 1px solid gray;">'
-                u'Missing text {0}.</span>'.format(
-                    force_str(id_)
-                )
+                '<span style="background-color: lightyellow;'
+                ' color: black;'
+                ' border: 1px solid gray;">'
+                'Missing text {0}.</span>',
+                id_
             )
-        return u""
+        return ""
 
 
 @register.simple_tag(takes_context=True)
-def load_texts(context: template.Context, id_: str, wrap: typing.Optional[str] = None) -> str:
+def load_texts(context: template.Context, id_: str) -> str:
     """
     Output multiple UIText values. If id is not found, only empty string is returned.
 
     :param context: (Context supplied by Django)
     :param id_: Start of id string to find.
-    :param wrap: Optional wrapping tag content (such as p). If whitespace, that is used instead.
     """
     texts = (
         _get_ui_text_query(context, id_)
@@ -73,19 +70,7 @@ def load_texts(context: template.Context, id_: str, wrap: typing.Optional[str] =
     if not texts:
         return ""
 
-    begin = ""
-    end = ""
-    joined = ""
-    if wrap is not None:
-        trimmed = wrap.strip()
-        if len(trimmed) > 0:
-            begin = format_html('<{0}>', trimmed)
-            end = format_html('</{0}>', trimmed.split(" ")[0])
-            joined = begin + end
-        else:
-            joined = wrap
-
-    return mark_safe(begin + joined.join(mark_down(text, context) for text in texts) + end)
+    return mark_safe("".join(mark_down(text, context) for text in texts))
 
 
 # Limit the size of the dict to a reasonable number so that we don't have
