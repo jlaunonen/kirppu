@@ -2,12 +2,12 @@ FROM python:3.12
 WORKDIR /usr/src/app
 
 RUN (echo "Package: *" && echo "Pin: origin deb.nodesource.com" && echo "Pin-Priority: 600") > /etc/apt/preferences.d/nodesource && \
-    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get -y install nodejs gettext && \
     mkdir -p /usr/src/app/kirppu && \
     bash -xc 'node --version && npm --version'
 
-COPY requirements-production.txt /usr/src/app/
+COPY requirements-production.txt constraints.txt /usr/src/app/
 RUN pip install --no-cache-dir -r requirements-production.txt
 
 COPY . /usr/src/app
