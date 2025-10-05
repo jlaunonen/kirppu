@@ -1,21 +1,34 @@
-FROM python:3.12
+# NOTE: This is only an example for production image.
+# Stage 0
+FROM node:20-alpine
+WORKDIR /usr/src/app/kirppu
+
+COPY kirppu/package.json kirppu/package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
+
+COPY kirppu ./
+# build will contain the directories {audio,css,fonts,img,js,jst}
+# expected to be found in /kirppu/static/kirppu before collectstatic.
+RUN mkdir /usr/src/build && npm run gulp -- --dest /usr/src/build --type production
+
+
+# Stage 1
+FROM python:3.13
 WORKDIR /usr/src/app
 
-RUN (echo "Package: *" && echo "Pin: origin deb.nodesource.com" && echo "Pin-Priority: 600") > /etc/apt/preferences.d/nodesource && \
-    curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get -y install nodejs gettext && \
+RUN apt-get update && \
+    apt-get -y install gettext && \
     mkdir -p /usr/src/app/kirppu && \
-    bash -xc 'node --version && npm --version'
+    groupadd -r kirppu && \
+    useradd -r -g kirppu kirppu
 
 COPY requirements-production.txt constraints.txt /usr/src/app/
-RUN pip install --no-cache-dir -r requirements-production.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements-production.txt
 
-COPY . /usr/src/app
-RUN cd /usr/src/app/kirppu && \
-    npm install && \
-    npm run gulp && \
-    rm -rf node_modules && \
-    groupadd -r kirppu && useradd -r -g kirppu kirppu
+COPY . ./
+COPY --link --from=0 /usr/src/build ./kirppu/static/kirppu
 
 RUN env DEBUG=1 python manage.py collectstatic --noinput && \
     env DEBUG=1 python manage.py compilemessages && \
@@ -23,4 +36,9 @@ RUN env DEBUG=1 python manage.py collectstatic --noinput && \
 
 USER kirppu
 EXPOSE 8000
-CMD ["python", "manage.py", "docker_start"]
+CMD ["gunicorn",\
+     "--bind=0.0.0.0:8000",\
+     "--workers=4",\
+     "--capture-output",\
+     "--access-logfile=-",\
+     "kirppu_project.wsgi:application"]
