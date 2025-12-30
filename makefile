@@ -1,5 +1,6 @@
 PYTHON := python
 LANGUAGES := fi en
+PYTEST_ARGS := -vvv
 
 # Optionally include user variables.
 sinclude makevars
@@ -35,7 +36,7 @@ apistub:  ## Create/update ajax_api stub file helping navigation from frontend c
 	find kirppu -! -path "kirppu/node_modules*" -name \*.py -exec python3 make_api_stub.py --js kirppu/static_src/js/api_stub.js --py kirppu/tests/api_access.pyi -- {} +
 
 test:     ## Run tests
-	DEBUG=1 ${PFX}py.test -vvv
+	DEBUG=1 ${PFX}py.test ${PYTEST_ARGS}
 
 update-constraints:  ## Update constraints.txt to match pyproject.toml
 	${PFX}pip-compile --all-extras --output-file=constraints.txt --strip-extras --upgrade
