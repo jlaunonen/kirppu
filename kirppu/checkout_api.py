@@ -190,7 +190,7 @@ def clerk_logout(request):
     """
     # Does not matter which event is being used, the logout shall always succeed.
     clerk_logout_fn(request)
-    return HttpResponse()
+    return HttpResponse(content_type="application/json", content=b"{}")
 
 
 def clerk_logout_fn(request):
