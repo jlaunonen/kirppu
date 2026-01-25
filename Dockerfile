@@ -23,9 +23,9 @@ RUN apt-get update && \
     groupadd -r kirppu && \
     useradd -r -g kirppu kirppu
 
-COPY requirements-production.txt constraints.txt /usr/src/app/
+COPY requirements-production.txt /usr/src/app/
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r requirements-production.txt
+    pip install --require-hashes -r requirements-production.txt
 
 COPY . ./
 COPY --link --from=0 /usr/src/build ./kirppu/static/kirppu
