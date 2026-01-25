@@ -52,6 +52,6 @@ venv:  ## Create virtualenv (.venv) using uv
 	${UV} sync --extra dev --frozen --no-python-downloads --verbose
 
 help:     ## This help.
-	@grep -F -h "#""#" $(MAKEFILE_LIST) | sed -e "s/:\\s*#""#/\n\t/" -e "s/\\s*#""#/\t/"
+	@grep -F -h "#""#" $(MAKEFILE_LIST) | sed -e "s/:.*#""#/\n\t/" -e "s/\\s*#""#/\t/"
 
 .PHONY: apistub c cloc compile default help messages requirement-sets static test update-constraints
