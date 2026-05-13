@@ -226,6 +226,28 @@ class VendorAdmin(admin.ModelAdmin):
             fields.append("person")
         return fields
 
+    def get_actions(self, request):
+        s = super().get_actions(request)
+        if settings.KIRPPU_STAGING_FEATURES:
+            s["reset_signup"] = (
+                VendorAdmin._reset_signup,
+                "reset_signup",
+                gettext("Reset signup info (terms, bank info)"),
+            )
+            return s
+        return s
+
+    # noinspection PyMethodMayBeStatic
+    def _reset_signup(self, request, queryset) -> None:
+        if not settings.KIRPPU_STAGING_FEATURES:
+            raise RuntimeError("Feature not available")
+        queryset.update(
+            terms_accepted=None,
+            bank_iban=None,
+            bank_bic=None,
+            bank_skip=None,
+        )
+
 
 admin.site.register(Person)
 admin.site.register(Account)
