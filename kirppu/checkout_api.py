@@ -289,7 +289,10 @@ def item_search(request, event, query, code, box_number, vendor, min_price, max_
         clauses.append(Q(code__contains=code))
 
     if box_number:
-        clauses.append(Q(box__box_number=int(box_number)))
+        try:
+            clauses.append(Q(box__box_number=int(box_number)))
+        except ValueError:
+            pass
 
     if vendor:
         clauses.append(Q(vendor=vendor))
