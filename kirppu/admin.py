@@ -48,7 +48,7 @@ from .util import get_form
 from .utils import datetime_iso_human
 
 
-BOX_RE = re.compile(r"box(?:_-)?(\d+)")
+BOX_RE = re.compile(r"box[_-]?(\d+)")
 
 def with_description(short_description):
     def decorator(action_function):
