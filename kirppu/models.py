@@ -6,6 +6,7 @@ import string
 import typing
 import warnings
 
+from django.contrib.admin import decorators
 from django.core.exceptions import ValidationError, ImproperlyConfigured
 from django.core.validators import MinLengthValidator, MinValueValidator, RegexValidator
 from django.db import models, transaction, IntegrityError
@@ -492,7 +493,10 @@ class Clerk(models.Model):
         return self.access_key is not None and int(self.access_key, 16) >= 100000
 
     @property
-    @short_description(_("Is enabled?"))
+    @decorators.display(
+        boolean=True,
+        description=_("Is enabled?"),
+    )
     def is_enabled(self):
         return self.is_valid_code and self.user is not None
 

@@ -110,7 +110,7 @@ class EventAdmin(admin.ModelAdmin):
     ordering = ("-start_date", "name")
 
     def get_list_display(self, request):
-        list_display = ["name", "slug", "start_date", "end_date", "registration_end", "checkout_active"]
+        list_display = ["name", "slug", "start_date", "end_date", "registration_start", "registration_end", "checkout_active"]
         if settings.KIRPPU_EXTRA_DATABASES or settings.KIRPPU_EXTRA_EVENTS:
             return list_display + ["source_db"]
         return list_display
@@ -196,7 +196,7 @@ class VendorAdmin(admin.ModelAdmin):
     ordering = ('user__first_name', 'user__last_name')
     search_fields = ['id', 'user__first_name', 'user__last_name', 'user__username',
                      'person__first_name', 'person__last_name']
-    list_display = ['id', _user_link, _person_link, "terms_accepted", "event"]
+    list_display = ['id', _user_link, _person_link, "terms_accepted", _event_link]
     list_filter = (
         "event",
     )
@@ -250,7 +250,12 @@ class VendorAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Person)
-admin.site.register(Account)
+
+
+@admin.register(Account)
+class AccountAdmin(admin.ModelAdmin):
+    list_display = ("name", "balance", _event_link)
+    list_filter = ("event",)
 
 
 class ClerkEditLink(FieldAccessor):
