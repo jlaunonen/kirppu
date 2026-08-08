@@ -477,6 +477,7 @@ def get_items(request, event_slug, bar_type):
 
         'is_registration_open': is_vendor_open(request, event),
         'is_registration_closed_for_users': is_registration_closed_for_users(event=event),
+        'is_vendor': vendor is not None,
         'menu': vendor_menu(request, event),
         'itemTypes': ItemType.as_tuple(event),
         'CURRENCY': settings.KIRPPU_CURRENCY,
@@ -549,6 +550,7 @@ def get_boxes(request, event_slug):
 
         'is_registration_open': is_vendor_open(request, event),
         'is_registration_closed_for_users': is_registration_closed_for_users(event),
+        'is_vendor': vendor is not None,
         'menu': vendor_menu(request, event),
         'itemTypes': ItemType.as_tuple(event),
         'CURRENCY': settings.KIRPPU_CURRENCY,
