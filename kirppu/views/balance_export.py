@@ -30,10 +30,21 @@ from ..checkout_api import compensation_end, item_mode_change
 from ..provision import Provision
 
 DataRow: typing.TypeAlias = tuple[int, str, str, str, decimal.Decimal]
-DataRowEx: typing.TypeAlias = tuple[int, str, str, str, decimal.Decimal, decimal.Decimal, decimal.Decimal, decimal.Decimal]
+DataRowEx: typing.TypeAlias = tuple[
+    int,
+    str,
+    str,
+    str,
+    decimal.Decimal,
+    decimal.Decimal,
+    decimal.Decimal,
+    decimal.Decimal,
+]
 
 
-def _data_iterator(event: Event, verbose: bool = False) -> typing.Iterator[DataRow | DataRowEx]:
+def _data_iterator(
+    event: Event, verbose: bool = False
+) -> typing.Iterator[DataRow | DataRowEx]:
     vo = (
         Vendor.objects.filter(event=event)
         .filter(~models.Q(bank_iban=""), bank_iban__isnull=False)
@@ -72,8 +83,12 @@ def _data_iterator(event: Event, verbose: bool = False) -> typing.Iterator[DataR
                 vendor.bank_iban,
                 vendor.bank_bic,
                 final_sum,
-                Item.price_fmt_for(provision.provision or decimal.Decimal(0), short_exact=False),
-                Item.price_fmt_for(provision.provision_fix or decimal.Decimal(0), short_exact=False),
+                Item.price_fmt_for(
+                    provision.provision or decimal.Decimal(0), short_exact=False
+                ),
+                Item.price_fmt_for(
+                    provision.provision_fix or decimal.Decimal(0), short_exact=False
+                ),
                 Item.price_fmt_for(vendor.sum or 0, short_exact=False),
             )
         else:
@@ -126,7 +141,18 @@ def csv_view(request, event_slug: str):
     with io.StringIO() as buf:
         writer = csv.writer(buf, dialect=csv.excel)
         if verbose:
-            writer.writerow(["ID", _("Name"), "IBAN", "BIC", _("Sum"), "Included provision", "Provision fix", "Original"])
+            writer.writerow(
+                [
+                    "ID",
+                    _("Name"),
+                    "IBAN",
+                    "BIC",
+                    _("Sum"),
+                    "Included provision",
+                    "Provision fix",
+                    "Original",
+                ]
+            )
         else:
             writer.writerow(["ID", _("Name"), "IBAN", "BIC", _("Sum")])
         price_sum = decimal.Decimal(0)
