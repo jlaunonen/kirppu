@@ -255,11 +255,11 @@ def iter_vendor(request, event_slug: str):
     clerk_pk: int = request.session["compensation_clerk"]
     counter_pk: int = request.session["compensation_counter"]
     if not vendors or not clerk_pk or not counter_pk:
-        return HttpResponseBadRequest("Not started")
+        return HttpResponseBadRequest("Not started", content_type="text/plain")
     pos: int = request.session["compensation_vendor_pos"]
 
     if pos >= len(vendors):
-        return HttpResponseBadRequest("Overflow")
+        return HttpResponseBadRequest("Overflow", content_type="text/plain")
 
     counter = Counter.objects.only("pk").get(pk=counter_pk)
     clerk = Clerk.objects.only("pk").get(pk=clerk_pk)
@@ -299,4 +299,4 @@ def end_compensation(request, event_slug: str):
     ):
         if k in request.session:
             del request.session[k]
-    return HttpResponse()
+    return HttpResponse(content_type="text/plain")

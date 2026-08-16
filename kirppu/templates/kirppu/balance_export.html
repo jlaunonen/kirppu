@@ -69,15 +69,24 @@
         const counterErrors = $("#counter-errors");
         const errors = $("#form-errors");
 
-        function doRequest(url, body) {
-            return window.fetch(url, {
-                body: body,
-                method: "POST",
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrf,
+        async function doRequest(url, body) {
+            try {
+                return await window.fetch(url, {
+                    body: body,
+                    method: "POST",
+                    headers: new Headers({
+                        "Accept": "plain/text; application/json",
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrf,
+                    })
                 })
-            })
+            } catch (e) {
+                console.error(e)
+                return new Response(
+                    new Blob([e], { type: "text/plain" }),
+                    { status: 500 },
+                )
+            }
         }
 
         function doProgress(processed, count) {
