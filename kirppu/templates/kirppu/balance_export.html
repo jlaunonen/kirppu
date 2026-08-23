@@ -33,7 +33,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <div id="form-errors" class="text-danger pre-nl"></div>
+                <div id="form-errors" class="text-danger pre-nl">{% if not enabled %}{% translate "Your user account is missing clerk permission to perform this operation" %}{% endif %}</div>
                 <button id="do_compensate" {% if not enabled %}disabled="disabled" {% endif %}type="button" class="btn btn-primary">Compensate</button>
             </div>
         </div>
