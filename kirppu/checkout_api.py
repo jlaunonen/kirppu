@@ -1156,7 +1156,7 @@ def _get_receipt_data_with_items(**kwargs):
 
 
 @ajax_func('^receipt$', method='GET')
-def receipt_get(request):
+def receipt_get(request, event: Event):
     """
     Find receipt by receipt id or one item in the receipt.
     """
@@ -1174,7 +1174,7 @@ def receipt_get(request):
         }
     else:
         raise AjaxError(RET_BAD_REQUEST)
-    return _get_receipt_data_with_items(**query)
+    return _get_receipt_data_with_items(**query, counter__event=event)
 
 
 @ajax_func('^receipt/activate$')
