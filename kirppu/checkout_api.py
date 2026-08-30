@@ -1152,6 +1152,17 @@ def _get_receipt_data_with_items(**kwargs):
 
     data = receipt.as_dict()
     data["items"] = receipt.row_list()
+
+    event: Event = receipt.counter.event
+    data["event"] = event.name
+    tail = []
+    if event.organiser:
+        tail.append(event.organiser)
+    if extra_tail := event.purchase_receipt_tail.strip():
+        tail.extend(extra_tail.split("\n"))
+    if tail:
+        data["tail"] = tail
+
     return data
 
 
