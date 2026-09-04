@@ -325,8 +325,10 @@ class ItemRemoveForm(forms.Form):
     def clean_code(self):
         data = self.cleaned_data["code"]
         if box_match := re.match(r"box[_ -]?(\d+)$", data):
-            # Indefinite check: there may be multiple Box objects with same box_number, across different Events.
-            if not Box.objects.filter(box_number=int(box_match[1])).exists():
+            if not Box.objects.filter(
+                box_number=int(box_match[1]),
+                representative_item__vendor__event=self._event,
+            ).exists():
                 raise forms.ValidationError("Box {} not found".format(box_match[1]))
             return data
         if not Item.is_item_barcode(data):
