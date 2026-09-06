@@ -565,6 +565,7 @@ class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'code', 'price', 'state', RefLinkAccessor('vendor', gettext("Vendor")))
     ordering = ('vendor', 'name')
     search_fields = ['name', 'code']
+    search_help_text = gettext("Item code or name")
     list_select_related = ("vendor", "vendor__user")
     list_filter = (
         "vendor__event",
@@ -669,6 +670,7 @@ class ItemStateLogAdmin(admin.ModelAdmin):
     model = ItemStateLog
     ordering = ["-id"]
     search_fields = ['item__code', 'clerk__user__username']
+    search_help_text = gettext("Item code or clerk username")
     list_display = ['id', 'time_str',
                     RefLinkAccessor("item", gettext("Item")),
                     'old_state', 'new_state',
@@ -679,7 +681,7 @@ class ItemStateLogAdmin(admin.ModelAdmin):
     )
     readonly_fields = ["time_str"]
     list_filter = (
-        "old_state", "new_state", "clerk", "counter",
+        "old_state", "new_state", "clerk__event", "clerk", "counter",
     )
     autocomplete_fields = [
         "item",
@@ -716,6 +718,7 @@ class BoxAdmin(admin.ModelAdmin):
         'get_item_count',
     ]
     search_fields = ['box_number', 'description', 'representative_item__code']
+    search_help_text = gettext("Box number, Box code, or description")
     ordering = ['box_number']
     list_display = [
         'box_number',
