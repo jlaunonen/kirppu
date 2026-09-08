@@ -610,8 +610,9 @@ class ReceiptAdmin(admin.ModelAdmin):
         ReceiptExtraAdmin,
         ReceiptNoteAdmin,
     ]
-    ordering = ["-start_time"]
-    list_display = ["__str__", "status", "total", "counter", "end_time_str"]
+    ordering = ["-id"]
+    list_display = ["id", "receipt_str", "status", "total", "counter", "end_time_str"]
+    list_display_links = ["id", "receipt_str"]
     list_filter = [
         ("type", admin.ChoicesFieldListFilter),
         "clerk__event",
@@ -619,15 +620,16 @@ class ReceiptAdmin(admin.ModelAdmin):
         "counter",
         "status",
     ]
-    search_fields = ["items__code", "items__name"]
-    search_help_text = gettext("Item code, item name, or \"boxNN\".")
+    search_fields = ["id", "items__code", "items__name"]
+    search_help_text = gettext("Receipt ID, item code, item name, or \"boxNN\".")
     actions = ["re_calculate_total"]
     exclude = ["end_time"]
-    readonly_fields = ["start_time_str", "end_time_str"]
+    readonly_fields = ["id", "start_time_str", "end_time_str"]
     list_select_related = ["clerk", "clerk__user", "counter"]
     autocomplete_fields = [
         "vendor",
     ]
+    date_hierarchy = "end_time"
 
     @admin.display(description="Re-calculate total sum of receipt")
     def re_calculate_total(self, request, queryset):
@@ -638,11 +640,15 @@ class ReceiptAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+    @admin.display(ordering="-start_time", description=Receipt._meta.verbose_name)
+    def receipt_str(self, instance: Receipt) -> str:
+        return str(instance)
+
     @admin.display(description=Receipt._meta.get_field("start_time").verbose_name)
     def start_time_str(self, instance: Receipt):
         return datetime_iso_human(instance.start_time)
 
-    @admin.display(description=Receipt._meta.get_field("end_time").verbose_name)
+    @admin.display(ordering="-end_time", description=Receipt._meta.get_field("end_time").verbose_name)
     def end_time_str(self, instance: Receipt):
         return datetime_iso_human(instance.end_time)
 
