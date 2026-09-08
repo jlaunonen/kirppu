@@ -204,6 +204,7 @@ class VendorAdmin(admin.ModelAdmin):
         "user",
         "person",
     )
+    autocomplete_fields = ["user"]
 
     @staticmethod
     def _can_set_user(request, obj):
@@ -229,6 +230,7 @@ class VendorAdmin(admin.ModelAdmin):
         fields.append("terms_accepted")
         if obj is not None:
             fields.append("event")
+            fields.append("user")
             fields.append("person")
         return fields
 
@@ -525,7 +527,9 @@ class CounterAdmin(admin.ModelAdmin):
         queryset.update(private_key=None)
 
 
-admin.site.register(ReceiptExtraRow)
+@admin.register(ReceiptExtraRow)
+class ReceiptExtraRowAdmin(admin.ModelAdmin):
+    readonly_fields = ["receipt"]
 
 
 @admin.register(UIText)
@@ -627,6 +631,9 @@ class ReceiptAdmin(admin.ModelAdmin):
     exclude = ["end_time"]
     readonly_fields = ["start_time_str", "end_time_str"]
     list_select_related = ["clerk", "clerk__user", "counter"]
+    autocomplete_fields = [
+        "vendor",
+    ]
 
     @with_description("Re-calculate total sum of receipt")
     def re_calculate_total(self, request, queryset):
@@ -786,3 +793,6 @@ class AccessSignupAdmin(admin.ModelAdmin):
         "update_time",
     )
     list_filter = ("event",)
+    autocomplete_fields = [
+        "user",
+    ]
