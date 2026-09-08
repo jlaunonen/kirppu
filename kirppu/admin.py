@@ -507,7 +507,7 @@ class ClerkAdmin(admin.ModelAdmin):
 
 @admin.register(Counter)
 class CounterAdmin(admin.ModelAdmin):
-    list_display = ("name", "identifier", "event", "is_in_use", "is_locked")
+    list_display = ("name", "identifier", _event_link, "is_in_use", "is_locked")
     list_filter = ("event",)
     actions = ("lock_counter", "reset_use")
 
